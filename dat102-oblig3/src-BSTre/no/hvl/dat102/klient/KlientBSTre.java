@@ -4,11 +4,9 @@ import no.hvl.dat102.KjedetBSTre;
 
 public class KlientBSTre {
 
-	/**
-	 * @param args
-	 */
+	
 	public static void main(String[] args) {
-		KjedetBSTre bstre = new KjedetBSTre();
+		KjedetBSTre<Integer> bstre = new KjedetBSTre<>();
 
 		bstre.leggTil(7);
 		bstre.leggTil(5);

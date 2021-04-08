@@ -26,12 +26,11 @@ public class KjedetBSTreADTTest {
 	 */
 	@BeforeEach
 	public final void setup() throws Exception {
-		bs = new KjedetBSTre<Integer>();
+		bs = new KjedetBSTre<>();
 	}
 
 	/**
 	 * Tester finn
-	 * 
 	 */
 	@Test
 	public final void erElementIBSTre() {
@@ -39,12 +38,10 @@ public class KjedetBSTreADTTest {
 		 * Her legger du inn e0...e6 i treet i en vilkårlig rekkefølge. Etterpå sjekker
 		 * du om elementene fins og til slutt sjekker du at e7 ikke fins
 		 */
-
 	}
 
 	/**
-	 * 1. Tester ordning ved å legge til elementer og fjerne minste
-	 * 
+	 * Tester ordning ved å legge til elementer og fjerne minste
 	 */
 	@Test
 	public final void erBSTreOrdnet() {
@@ -55,8 +52,8 @@ public class KjedetBSTreADTTest {
 	}
 
 	/**
-	 * 2 Tester ordning ved å bruke en inordeniterator Her studerer du alt om bruk
-	 * av inordeniterator.
+	 * Tester ordning ved å bruke en inordeniterator.
+	 * Her studerer du alt om bruk av inordeniterator.
 	 */
 	@Test
 	public final void erBSTreOrdnet2() {

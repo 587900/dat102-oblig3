@@ -1,61 +1,72 @@
 package no.hvl.dat102.adt;
 
-import java.util.*;
-
 public interface BSTreADT<T extends Comparable<T>> {
-	// Burde hatt javadoc her
-	// Anbefaler at du fyller ut med javadoc her som kan vaere en del av 
-	// øvingen. Flere metoder må fylles ut i implementasjonsfilen.
-	//Legg merke til at i denne imlementasjonen er det ikke brukt exceptions som
-	// vi kunne hatt og som vi har brukt for i flere av de andre samlingene.
 
-	/*****************************************************************
-	 * Returnerer sann hvis dette binaere treet er tomt og usann ellers.
-	 *****************************************************************/
-
+	/**
+	 * The number of elements in my tree (number of elements in a tree i am the root for / if I am the top root -> number of elements in the entire tree)
+	 * @return the number of elements in the tree
+	 */
 	public int antall();
-
-	/*****************************************************************
-	 * Returnerer sann hvis dette binære treet er tom og usann ellers.
-	 *****************************************************************/
+	
+	/**
+	 * Check if my sub-tree is empty.
+	 * If I contain an element, this will return false as well.
+	 * @return true if my sub-tree is empty, false otherwise
+	 */
 	public boolean erTom();
 
-	/******************************************************************
-	 * Legger det spesifiserte elementet på passende plass i dette binære søketreet.
-	 * Like elementer blir lagt til høyre.
-	 ******************************************************************/
-	public void leggTil(T element);
 
-	/**********************************************************************
-	 * Returnerer en referanse til det spesifiserte elementet hvis det fins i dette
-	 * binære treet ellers returneres null./
-	 ************************************************************************/
+	/**
+	 * Insert an element into the tree (Add the specified element to its appropriate place in the binary tree).
+	 * Equal elements are biased towards the right (and will never be added towards the left).
+	 * @param element - The element to add
+	 */
+	public void leggTil(T element);
+	
+	/**
+	 * Returns a reference to an object in the tree that is equal to the specified element.
+	 * If no equal element is found in the tree, returns null.
+	 * @param element - The element to look for (by .equals())
+	 * @return A reference to the equal element, null if none found.
+	 */
 	public T finn(T element);
 	
-	/*****************************************************************
-	 * Returnerer en referanse til minste elementet, null viss tre er tomt.
-	 *****************************************************************/
+	/**
+	 * Returns a reference to the object with the minimum value.
+	 * Returns null if the tree is empty
+	 * @return A reference to the object with the minimum value, null if tree is empty.
+	 */
 	public T finnMin();
 	
-	/*****************************************************************
-	 * Returnerer en referanse til største elementet, null viss tre er tomt.
-	 *****************************************************************/
+	/**
+	 * Returns a reference to the object with the maximum value.
+	 * Returns null if the tree is empty
+	 * @return A reference to the object with the maximum value, null if tree is empty.
+	 */
 	public T finnMaks();
 
-	/************************************************************************
-	 * Fjerner et element fra dette treet hvis det fins, ellers returneres null
-	 ************************************************************************/
+	/**
+	 * Remove an element from the tree if if exists and return it.
+	 * Returns null if element not found.
+	 * @param element - The element to look for / remove (by .equals())
+	 * @returns A reference to the removed object, null if no equal object found.
+	 */
+	// public T fjern(T element);
+	// not implemented
 	
-	// public T fjern( T element);
-	// Ikke impelmentert
-	
-	/************************************************************************
-	 * Fjerner minste elementet fra dette treet hvis det fins, ellers returneres null
-	 ************************************************************************/
+	/**
+	 * Remove the the object with the minimum value in the tree and return it.
+	 * Does nothing (and returns null) if tree is empty.
+	 * If two or more elements have the same value and are the minimum value, pick the top-most element from those in the tree (first encountered from root->down)
+	 * @return A reference to the removed object (minimum value object), null if tree is empty
+	 */
 	public T fjernMin();
 	
-	/************************************************************************
-	 * Fjerner største elementet fra dette treet hvis det fins, ellers returneres null
-	 ************************************************************************/
+	/**
+	 * Remove the the object with the maximum value in the tree and return it.
+	 * Does nothing (and returns null) if tree is empty.
+	 * If two or more elements have the same value and are the maximum value, pick the top-most element from those in the tree (first encountered from root->down)
+	 * @return A reference to the removed object (maximum value object), null if tree is empty
+	 */
 	public T fjernMaks();
 }

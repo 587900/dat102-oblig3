@@ -10,9 +10,10 @@ public class BinaerTreNode<T> {
 	private BinaerTreNode<T> venstre;
 	private BinaerTreNode<T> hoyre;
 
-	/*****************************************************************
-	 * Oppretter et nytt tre med spesifisert data.
-	 *****************************************************************/
+	/**
+	 * Create a new tree with the specified data
+	 * @param el - the specified data
+	 */
 	public BinaerTreNode(T el) {
 		element = el;
 		venstre = null;
@@ -25,33 +26,15 @@ public class BinaerTreNode<T> {
 		this.hoyre = hoyre;
 	}
 
-	/******************************************************************/
-	/*
-	 * Hent- og settmetoder /
-	 ******************************************************************/
+	/* Getters and setters */
 
-	public BinaerTreNode<T> getVenstre() {
-		return venstre;
-	}
-
-	public BinaerTreNode<T> getHoyre() {
-		return hoyre;
-	}
-
-	public void setVenstre(BinaerTreNode<T> ny) {
-		venstre = ny;
-	}
-
-	public void setHoyre(BinaerTreNode<T> ny) {
-		hoyre = ny;
-	}
-
-	public T getElement() {
-		return element;
-	}
-
-	public void setElement(T el) {
-		element = el;
-	}
+	public BinaerTreNode<T> getVenstre() { return venstre; }
+	public void setVenstre(BinaerTreNode<T> ny) { venstre = ny; }
+	
+	public BinaerTreNode<T> getHoyre() { return hoyre; }
+	public void setHoyre(BinaerTreNode<T> ny) {	hoyre = ny; }
+	
+	public T getElement() {	return element; }
+	public void setElement(T el) { element = el; }
 
 }
