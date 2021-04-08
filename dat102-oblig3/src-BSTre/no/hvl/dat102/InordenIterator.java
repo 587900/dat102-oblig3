@@ -15,7 +15,7 @@ public class InordenIterator<T> implements Iterator<T>{
 	private BinaerTreNode<T> gaaTilVenstre(BinaerTreNode<T> p){
 		if (p == null)
 		return null;
-		while (p.getVenstre() != null){
+		while (p.getVenstre() != null) {
 			s.push(p);
 			p = p.getVenstre();
 		}
@@ -25,27 +25,27 @@ public class InordenIterator<T> implements Iterator<T>{
 	/**
 	 * Creates an InordenIterator<T>, and goes all the way to the left in the brinary tree
 	 */
-	public InordenIterator(BinaerTreNode<T> rot){
+	public InordenIterator(BinaerTreNode<T> rot) {
 		s = new Stack<BinaerTreNode<T>>();
 		aktuell = gaaTilVenstre(rot);
 	}
 
 	/**
-	 * @returns true if the iterator has more elements
+	 * @return true if the iterator has more elements
 	 */
 	@Override
-	public boolean hasNext(){
+	public boolean hasNext() {
 		return (aktuell != null);
 	}
 
 	/**
-	 * @returns the next element in the iterator, null if empty
+	 * @return the next element in the iterator, null if empty
 	 */
 	@Override
 	public T next() {
 		T resultat = null;  
 		
-		if(hasNext()){  
+		if(hasNext()) {  
 			resultat = aktuell.getElement();
 			
 			if (aktuell.getHoyre() != null) // har et høyre undertre

@@ -37,7 +37,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 
 	
 	/**
-	 * @returns the number of elements in the tree
+	 * @return the number of elements in the tree
 	 */
 	@Override
 	public int antall() {
@@ -45,7 +45,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	}
 
 	/**
-	 * @returns true if tree is empty, false otherwise
+	 * @return true if tree is empty, false otherwise
 	 */
 	@Override
 	public boolean erTom() {
@@ -84,7 +84,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	/**
 	 * Remove the node with the smallest value.
 	 * Does nothing if the tree is empty.
-	 * @returns The removed node, null if tree is empty
+	 * @return The removed node, null if tree is empty
 	 */
 	@Override
 	public T fjernMin() {
@@ -95,7 +95,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	/**
 	 * Remove the node with the highest value.
 	 * Does nothing if the tree is empty.
-	 * @returns The removed node, null if tree is empty
+	 * @return The removed node, null if tree is empty
 	 */
 	@Override
 	public T fjernMaks() {
@@ -105,7 +105,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 
 	/**
 	 * Find the node with the smallest value.
-	 * @returns The node, null if tree is empty
+	 * @return The node, null if tree is empty
 	 */
 	@Override
 	public T finnMin() {
@@ -115,7 +115,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 
 	/**
 	 * Find the node with the highest value.
-	 * @returns The node, null if tree is empty
+	 * @return The node, null if tree is empty
 	 */
 	@Override
 	public T finnMaks() {
