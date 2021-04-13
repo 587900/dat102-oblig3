@@ -1,6 +1,7 @@
 package no.hvl.dat102;
 
 import java.util.Iterator;
+import java.util.concurrent.Callable;
 
 import no.hvl.dat102.adt.BSTreADT;
 
@@ -15,7 +16,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	private BinaerTreNode<T> rot;
 
 	/**
-	 * Create an empty binary tree
+	 * Create an empty binary search tree
 	 */
 	public KjedetBSTre() {
 		antall = 0;
@@ -23,7 +24,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	}
 
 	/**
-	 * Create a binary tree with one element (one node with element)
+	 * Create a binary search tree with one element (one node with element)
 	 * @param element - the element
 	 */
 	public KjedetBSTre(T element) {
@@ -36,28 +37,19 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	public void setRot(BinaerTreNode<T> rot) { this.rot = rot; }
 
 	
-	/**
-	 * @return the number of elements in the tree
-	 */
 	@Override
 	public int antall() {
 		return antall;
 	}
 
-	/**
-	 * @return true if tree is empty, false otherwise
-	 */
 	@Override
 	public boolean erTom() {
 		return (antall == 0);
 	}
 	
-	
 	/**
-	 * Inserts an element into the tree.
-	 * Equal elements are biased towards the right.
+	 * {@inheritDoc}
 	 * Methodology: Uses recursive insertion
-	 * @param element - The element to insert
 	 */
 	@Override
 	public void leggTil(T element) {
@@ -65,93 +57,157 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 		antall++;
 	}
 
-	//leggTil, but with recursion
+	//leggTil recursion part
 	private BinaerTreNode<T> leggTilRek(BinaerTreNode<T> p, T element) {
-		// TODO 
-		return null;
+		if (p == null) return new BinaerTreNode<>(element);
+		
+		//set left/right to result of leggTilRek(left/right, element)
+		if (element.compareTo(p.getElement()) < 0) p.setVenstre(leggTilRek(p.getVenstre(), element)); else p.setHoyre(leggTilRek(p.getHoyre(), element));
+		
+		return p;
 	}
 
 	/**
-	 * Inserts an element into the tree.
-	 * Equal elements are biased towards the right.
+	 * @see KjedetBSTre#leggTil(Comparable)
 	 * Methodology: Uses standard insertion
-	 * @param element - The element to insert
 	 */
 	public void leggTil2(T element) {
-		// TODO
+		throw new Error("Method unimplemented");
 	}
+	
+	@Override
+	public T fjern(T element) {
+		
+		if (rot == null || element == null) return null;
 
-	/**
-	 * Remove the node with the smallest value.
-	 * Does nothing if the tree is empty.
-	 * @return The removed node, null if tree is empty
-	 */
+		BinaerTreNode<T> parent = null;
+		BinaerTreNode<T> node = rot;
+		
+		//Go to comparatively equal node
+		int comparison;
+		while ((comparison = element.compareTo(node.getElement())) != 0) {
+			parent = node;
+			node = (comparison < 0 ? node.getVenstre() : node.getHoyre());
+			if (node == null) return null;	//element not found
+		}
+		
+		//Decide what shall replace our node
+		BinaerTreNode<T> replacement;
+		if (node.getVenstre() == null && node.getHoyre() == null) {
+			//no children, delete node
+			replacement = null;
+		} else if (node.getVenstre() != null && node.getHoyre() != null) {
+			//two children, replace with lowest value in right sub-tree. Remember to attach our current children.
+			//We know that node can at most have one child, so there is no infinite loop (because minimum value cannot have something less than it in the tree)
+			replacement = fjernMin(node.getHoyre());
+			replacement.setVenstre(node.getVenstre());
+			replacement.setHoyre(node.getHoyre());
+		} else {
+			//one child, replace myself with it
+			replacement = node.getVenstre();
+			if (replacement == null) replacement = node.getHoyre();
+		}
+		
+		if (parent == null) rot = replacement;	//no way of getting around this check in java without recursion
+		else if (comparison < 0) parent.setVenstre(replacement); else parent.setHoyre(replacement);
+		
+		return node.getElement();
+	}
+	
 	@Override
 	public T fjernMin() {
-		// TODO 
-		return null;
+		return fjern(finnMin());
+	}
+	
+	//this always works.
+	//because equal elements are biased towards the right, the first instance of any value will always be the furthest left in the tree of that value
+	//(ex. if two instances of the number 40 exists in the tree, the first encounter of the value 40 will be the left-most node in the tree that contains the value 40)
+	//
+	//optimally, we could use recursion to skip a potentially large part of any tree, since we know the starting node 
+	//(fjern will always go to that node first, since this method essentially removes the smallest value under this node)
+	//this is currently not done due to code / function duplication
+	private BinaerTreNode<T> fjernMin(BinaerTreNode<T> node) {
+		return new BinaerTreNode<>(fjern(finnMin(node)));
+	}
+	
+	//helper
+	private T finnMin(BinaerTreNode<T> node) {
+		if (node == null) return null;
+		while (node.getVenstre() != null) node = node.getVenstre();
+		return node.getElement();
 	}
 
-	/**
-	 * Remove the node with the highest value.
-	 * Does nothing if the tree is empty.
-	 * @return The removed node, null if tree is empty
-	 */
 	@Override
 	public T fjernMaks() {
-		// TODO 
-		return null;
+		return fjern(finnMaks());
 	}
 
-	/**
-	 * Find the node with the smallest value.
-	 * @return The node, null if tree is empty
-	 */
 	@Override
 	public T finnMin() {
-		// TODO 
-		return null;
+		BinaerTreNode<T> node = rot;
+		while (node.getVenstre() != null) node = node.getVenstre();
+		return node.getElement();
 	}
 
-	/**
-	 * Find the node with the highest value.
-	 * @return The node, null if tree is empty
-	 */
 	@Override
 	public T finnMaks() {
-		// TODO 
-		return null;
+		BinaerTreNode<T> node = rot;
+		while (node.getHoyre() != null) node = node.getHoyre();
+		return node.getElement();
 	}
 
 	/**
-	 * Returns a reference to an object in the tree that is equal to the specified element.
-	 * If no equal element is found in the tree, returns null.
+	 * {@inheritDoc}
 	 * Methodology: Uses recursive searching
-	 * @param element - The element to look for (by .equals())
-	 * @return A reference to the equal element, null if none found.
 	 */
 	@Override
 	public T finn(T element) {
-		// Søk med rekursiv hjelpemetode
-
-		// return finnRek(element, rot);
-		return null;
+		return finnRekursiv(rot, element);
+	}
+	
+	private T finnRekursiv(BinaerTreNode<T> node, T element) {
+		if (node == null) return null;
+		
+		int comp = element.compareTo(node.getElement());
+		
+		if (comp == 0) return node.getElement();
+		
+		return finnRekursiv((comp < 0 ? node.getVenstre() : node.getHoyre()), element);		
 	}
 
-	// Den rekursive hjelpemetoden for søking
-	
-	// TODO 
-
 	/**
-	 * Returns a reference to an object in the tree that is equal to the specified element.
-	 * If no equal element is found in the tree, returns null.
+	 * @see KjedetBSTre#finn(Comparable)
 	 * Methodology: Uses standard searching.
-	 * @param element - The element to look for (by .equals())
-	 * @return A reference to the equal element, null if none found.
 	 */
 	public T finn2(T element) {
-		// TODO 
-		return null;
+		BinaerTreNode<T> node = rot;
+		while (true) {
+			if (node == null) return null;
+			int comp = element.compareTo(node.getElement());
+			if (comp == 0) return node.getElement();
+			node = (comp < 0 ? node.getVenstre() : node.getHoyre());
+		}
+	}
+	
+	//3a)
+	/**
+	 * Returns the height of the tree (the longest path from the root to any given leaf).
+	 * Returns -1 if the tree is empty.
+	 * Methodology: Uses recursion.
+	 * @return the height of the tree, -1 if the tree is empty
+	 */
+	public int hoyde() {
+		return maxDistanceRecursive(rot) - 1; 	//-1 to not count root
+	}
+	
+	/**
+	 * Get the number of nodes between a node and the furthest-away leaf from it (inclusive) (aka height of tree +1).
+	 * If node null (tree considered empty), returns 0.
+	 * @return the number of nodes between the provided node and the furthest-away leaf (inclusive) (aka height of tree +1).
+	 */
+	private int maxDistanceRecursive(BinaerTreNode<T> node) {
+		if (node == null) return 0;
+		return Math.max(maxDistanceRecursive(node.getHoyre()), maxDistanceRecursive(node.getVenstre())) + 1;
 	}
 
 	/**
@@ -174,6 +230,43 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	@Override
 	public Iterator<T> iterator() {
 		return new InordenIterator<T>(rot);
+	}
+	
+	
+	//3e) (frivillig) - below:
+	
+	/**
+	 * Print all values that are comparatively (by .compareTo()) between the lower and upper bounds, in order.
+	 * @param min - the lower bound (inclusive)
+	 * @param max - the upper bound (inclusive)
+	 */
+	public void skrivVerdier(T lower, T upper) { skrivVerdierRek(rot, lower, upper); System.out.println(); }
+	
+	private void skrivVerdierRek(BinaerTreNode<T> node, T lower, T upper) {
+		if (node == null) return;
+		int compLower = node.getElement().compareTo(lower);
+		int compUpper = node.getElement().compareTo(upper);
+		
+		if (compLower >= 0) skrivVerdierRek(node.getVenstre(), lower, upper);				//lower bound is in range
+		if (compLower >= 0 && compUpper <= 0) System.out.print(node.getElement() + " ");	//we are in range
+		if (compUpper <= 0) skrivVerdierRek(node.getHoyre(), lower, upper);					//upper bound is in range
+	}
+	
+	/**
+	 * 3e) i. - explain why this method is not optimal:
+	 * Explanation: we know that if this node's value is lower than the "lower" bound, 
+	 * that all the values on the left side of this node are subsequently lower, and thus need not be checked.
+	 * The same goes for if this node's value is higher than the upper bound, we don't need to check the nodes on the right side.
+	 * PS: I would also strongly prefer to use {@code if(node == null) return;}, though this is not necessarily relevant to the code's optimization.
+	 */
+	private void skrivVerdierRek2(BinaerTreNode<T> node, T lower, T upper) {
+		if (node != null) {
+			skrivVerdierRek2(node.getVenstre(), lower, upper);
+			if ((node.getElement().compareTo(lower) >= 0) && (node.getElement().compareTo(upper) <= 0)) {
+				System.out.print(node.getElement() + " ");
+			}
+			skrivVerdierRek2(node.getHoyre(), lower, upper);
+		}
 	}
 	
 }

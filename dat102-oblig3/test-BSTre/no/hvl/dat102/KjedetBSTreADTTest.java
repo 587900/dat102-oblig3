@@ -1,6 +1,10 @@
 package no.hvl.dat102;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,10 +38,18 @@ public class KjedetBSTreADTTest {
 	 */
 	@Test
 	public final void erElementIBSTre() {
-		/*
-		 * Her legger du inn e0...e6 i treet i en vilkårlig rekkefølge. Etterpå sjekker
-		 * du om elementene fins og til slutt sjekker du at e7 ikke fins
-		 */
+		bs.leggTil(e3);
+		bs.leggTil(e6);
+		bs.leggTil(e1);
+		bs.leggTil(e4);
+		bs.leggTil(e5);
+		bs.leggTil(e2);
+		bs.leggTil(e0);
+		
+		Integer[] ints = { e0, e1, e2, e3, e4, e5, e6 };
+		for (Integer i : ints) assertEquals(i, bs.finn(i));
+
+		assertNull(bs.finn(e7));
 	}
 
 	/**
@@ -45,13 +57,22 @@ public class KjedetBSTreADTTest {
 	 */
 	@Test
 	public final void erBSTreOrdnet() {
-		/*
-		 * Her legge du først inn e0...e6 i en vilkårlig rekkefølge og så fjerne du
-		 * minste hele tiden
-		 */
+		bs.leggTil(e4);
+		bs.leggTil(e1);
+		bs.leggTil(e2);
+		bs.leggTil(e6);
+		bs.leggTil(e0);
+		bs.leggTil(e3);
+		bs.leggTil(e5);
+		
+		Integer[] ints = { e0, e1, e2, e3, e4, e5, e6 };
+		for (Integer i : ints) assertEquals(i, bs.fjernMin());
+
+		assertTrue(bs.erTom());
 	}
 
 	/**
+	 * 3d iii) (frivillig)
 	 * Tester ordning ved å bruke en inordeniterator.
 	 * Her studerer du alt om bruk av inordeniterator.
 	 */
@@ -65,13 +86,13 @@ public class KjedetBSTreADTTest {
 		bs.leggTil(e0);
 		bs.leggTil(e6);
 
-		Integer el[] = { e0, e1, e2, e3, e4, e5, e6 };
+		Integer[] ints = { e0, e1, e2, e3, e4, e5, e6 };
 		int i = 0;
 		for (Integer e : bs) {
-			assertEquals(el[i], e);
+			assertEquals(ints[i], e);
 			i++;
 		}
 
 	}
 
-}// class
+}

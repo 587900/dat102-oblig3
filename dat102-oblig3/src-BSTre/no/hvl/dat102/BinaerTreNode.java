@@ -11,7 +11,7 @@ public class BinaerTreNode<T> {
 	private BinaerTreNode<T> hoyre;
 
 	/**
-	 * Create a new tree with the specified data
+	 * Create a new tree node with the specified data
 	 * @param el - the specified data
 	 */
 	public BinaerTreNode(T el) {

@@ -23,7 +23,7 @@ public class InordenIterator<T> implements Iterator<T>{
 	}
 
 	/**
-	 * Creates an InordenIterator<T>, and goes all the way to the left in the brinary tree
+	 * Creates an InordenIterator<T>, and goes all the way to the left in the binary search tree
 	 */
 	public InordenIterator(BinaerTreNode<T> rot) {
 		s = new Stack<BinaerTreNode<T>>();
@@ -60,9 +60,10 @@ public class InordenIterator<T> implements Iterator<T>{
 		return resultat;
 	}
 
-	public void remove() {
-		// Ikke implementert
-	}
+	//unused / unsupported
+//	public void remove() {
+//		// Ikke implementert
+//	}
 
 }
  
