@@ -85,8 +85,10 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 		
 		//Go to comparatively equal node
 		int comparison;
+		int parentComparison = 0;
 		while ((comparison = element.compareTo(node.getElement())) != 0) {
 			parent = node;
+			parentComparison = comparison;	//because last iteration "comparison == 0"
 			node = (comparison < 0 ? node.getVenstre() : node.getHoyre());
 			if (node == null) return null;	//element not found
 		}
@@ -109,7 +111,9 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 		}
 		
 		if (parent == null) rot = replacement;	//no way of getting around this check in java without recursion
-		else if (comparison < 0) parent.setVenstre(replacement); else parent.setHoyre(replacement);
+		else if (parentComparison < 0) parent.setVenstre(replacement); else parent.setHoyre(replacement);
+		
+		antall--;
 		
 		return node.getElement();
 	}
