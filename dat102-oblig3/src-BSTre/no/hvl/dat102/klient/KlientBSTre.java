@@ -47,7 +47,7 @@ public class KlientBSTre {
 		
 		System.out.println("Running program 1");
 		random = new Random();
-		runProgram(1000, 8192);
+		runProgram(1000, 1023);
 		System.out.println("Program finished");
 		
 		System.out.println();
@@ -89,9 +89,9 @@ public class KlientBSTre {
 		
 		avgHeight /= iterations;
 		
-		//System.out.println("Number of nodes: " + numElements);
-		//System.out.println("Minimum and maximum theoretical heights: " + minTheoreticalHeight + ", " + maxTheoreticalHeight);
-		//System.out.println("Minimum and maximum measured heights: " + minHeight + ", " + maxHeight);
+		System.out.println("Number of nodes: " + numElements);
+		System.out.println("Minimum and maximum theoretical heights: " + minTheoreticalHeight + ", " + maxTheoreticalHeight);
+		System.out.println("Minimum and maximum measured heights: " + minHeight + ", " + maxHeight);
 		System.out.println("Average of all measured heights: " + avgHeight + " from numElements: " + numElements);
 		
 	}
